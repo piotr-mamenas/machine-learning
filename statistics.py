@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats as sp
+from pylab import *
 from scipy.stats import binom
 from scipy.stats import norm
 from scipy.stats import poisson
@@ -78,3 +79,32 @@ plt.show()
 print(sp.skew(vals))
 print(sp.kurtosis(vals))
 
+# Correlation
+# -1 perfect inverse, 0 - none, 1 perfect
+
+def diff_mean(x):
+    xmean = mean(x)
+    return [xi - xmean for xi in x]
+
+def covariance(x,y):
+    n = len(x)
+    return dot(diff_mean(x), diff_mean(y)) / (n-1)
+
+def correlation(x,y):
+    stddevx = x.std()
+    stddevy = y.std()
+    return covariance(x,y) / stddevx / stddevy
+
+pageLoads = np.random.normal(100, 10, 100)
+purchaseTotalAmount = np.random.normal(1000, 30, 100)
+
+scatter(pageLoads, purchaseTotalAmount)
+
+print(covariance(pageLoads, purchaseTotalAmount))
+
+print(correlation(pageLoads,purchaseTotalAmount))
+
+# Exists a numpy func but incor result d t rounding
+display(np.corrcoef(pageLoads, purchaseTotalAmount))
+
+# Conditional probability
