@@ -1,9 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy import stats
+import scipy.stats as sp
 from scipy.stats import binom
 from scipy.stats import norm
 from scipy.stats import poisson
+
+#Median, Avg, Std, Variation
 
 incomes = np.random.normal(27000, 15000, 500)
 plt.hist(incomes, 50)
@@ -34,6 +36,7 @@ plt.show()
 
 x = np.arange(-3,3,0.001)
 plt.plot(x, norm.pdf(x))
+plt.show()
 
 n, p = 10, 0.5
 x = np.arange(0, 10, 0.001)
@@ -48,3 +51,30 @@ x = np.arange(300,500,0.5)
 
 plt.plot(x, poisson.pmf(x,mu))
 plt.show()
+
+# Percentile
+
+vals = np.random.normal(0, 0.5, 10000)
+
+plt.hist(vals, 50)
+plt.show()
+
+print(np.percentile(vals, 50))
+print(np.percentile(vals,90))
+
+# Moment
+# 1 - Avg
+# 2 - Var
+# 3 - Skew
+# v < 0 => left-skew, v < 0 => right-skew
+# 4 - Kurtosis
+# How the data concentrates on a given point, higher spire => higher difference
+
+vals = np.random.normal(0, 0.5, 10000)
+
+plt.hist(vals, 50)
+plt.show()
+
+print(sp.skew(vals))
+print(sp.kurtosis(vals))
+
