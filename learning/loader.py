@@ -36,17 +36,3 @@ class Loader:
         if limit is not None:
             X, Y = X[:limit], Y[:limit]
         return X, Y
-
-    def load_xor():
-        X = np.zeros((200,2))
-        X[:50] = np.random.random((50, 2)) / 2 + 0.5
-        X[50:100] = np.random.random((50,2)) / 2
-        X[100:150] = np.random.random((50,2)) / 2 + np.array([[0,0.5]])
-        X[150:] = np.random.random((50,2)) / 2 + np.array([[0.5, 0]])
-        Y = np.array([0]*100 + [1]*100)
-        return X, Y
-
-    def load_donut():
-        N = 200
-        R_inner = 5
-        R_outer = 10

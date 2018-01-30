@@ -52,14 +52,14 @@ if __name__ == '__main__':
     for k in (1,2,3,4,5):
         knn = KNN(k)
         t0 = datetime.now()
-        knn.fit(Xtrain, Ytrain) 
+        knn.fit(Xtrain, Ytrain)
         print("Training time:", (datetime.now() - t0))
-        
+
         t0 = datetime.now()
         print("Train accuracy:", knn.score(Xtrain,Ytrain))
-        print("Time to compute train accuracy:", (datetime.now() - t0)) 
+        print("Time to compute train accuracy:", (datetime.now() - t0))
         print("Train size:", len(Ytrain))
-        
+
         t0 = datetime.now()
         print("Test accuracy:", knn.score(Xtest, Ytest))
         print("Time to compute test accuracy:", (datetime.now() - t0))
