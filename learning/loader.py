@@ -10,6 +10,8 @@ class Loader:
     DOWNLOAD_ROOT = "https://raw.githubusercontent.com/ageron/handson-ml/master/"
     HOUSING_PATH = "datasets/housing"
     MNIST_PATH = "datasets/mnist"
+    POKEMON_PATH = "datasets/pokemon"
+    LEARN_PROCESS_PATH = "datasets/language-learn"
     HOUSING_URL = DOWNLOAD_ROOT + HOUSING_PATH + "/housing.tgz"
 
     def fetch_housing_data(housing_url=HOUSING_URL, housing_path=HOUSING_PATH):
@@ -36,3 +38,19 @@ class Loader:
         if limit is not None:
             X, Y = X[:limit], Y[:limit]
         return X, Y
+
+    def load_pokemon_train(limit=None, pokemon_path=POKEMON_PATH):
+        csv_path = os.path.join(pokemon_path, "pokemon.csv")
+        return pd.read_csv(csv_path)
+
+    def load_pokemon_combat(limit=None, pokemon_path=POKEMON_PATH):
+        csv_path = os.path.join(pokemon_path, "combats.csv")
+        return pd.read_csv(csv_path)
+
+    def load_pokemon_tests(limit=None, pokemon_path=POKEMON_PATH):
+        csv_path = os.path.join(pokemon_path, "tests.csv")
+        return pd.read_csv(csv_path)
+
+    def load_learn_process(limit=None, learn_process_path=LEARN_PROCESS_PATH):
+        csv_path = os.path.join(learn_process_path, "learn_process.csv")
+        return pd.read_csv(csv_path)
