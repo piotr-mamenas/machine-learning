@@ -12,6 +12,6 @@ if __name__ == '__main__':
     print(process.head())
     
     melted_data = pd.melt(process, value_vars=['english','deutsch'], var_name='language', value_name='word')
-    numberof = melted_data.groupby(by=['language','word'])['word'].count().orderby()
+    numberof = melted_data.groupby(by=['language','word'])['word'].count()
     print(numberof)
     
