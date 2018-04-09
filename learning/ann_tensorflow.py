@@ -29,7 +29,7 @@ class ANN(object):
         y = util.targets_to_indicator(y).astype(np.float32)
         x_test, y_test = x[-1000:], y[-1000:]
         y_test_flat = np.argmax(y_test, axis=1)
-        x, y = [:-1000], y[:-1000]
+        x, y = x[:-1000], y[:-1000]
 
         n, d = x.shape
         self.hidden_layers = []
@@ -72,14 +72,29 @@ class ANN(object):
                     session.run(train_op, feed_dict={tfX: xbatch, tfT: ybatch})
 
                     if j % 20 == 0:
-                        c = session.run(cost, feed_dict=feed_dict{tfX:x_test, tfT: y_test})
+                        c = session.run(cost, feed_dict={tfX:x_test, tfT: y_test})
                         costs.append(c)
 
-                        p = session.run(prediction, feed_dict=feed_dict{tfX:x_test, tfT: y_test})
+                        p = session.run(prediction, feed_dict={tfX:x_test, tfT: y_test})
                         e = util.error_rate(y_test_flat, p)
 
         if show_fig:
             plt.plot(costs)
             plt.show()
 
-if __name__ == '__main__';
+    def forward(self, x):
+        z = x
+        for i in self.hidden_layers:
+            z = h.forward(z)
+        return tf.matmul(z, self.weights) + self.biases
+
+    def predict(self, x):
+        act = self.forward(x)
+        return tf.argmax(act,1)
+
+
+if __name__ == '__main__':
+    X, Y = ld.get_image_data();
+
+    model = ANN([2000,1000,500])
+    model.fit(X,Y,show_fig=True)
