@@ -48,6 +48,11 @@ if __name__ == '__main__':
     x_train, x_test, y_train, y_test = train_test_split(data, targets, test_size=0.33, random_state=42)
     x2_train, x2_test, y2_train, y2_test = train_test_split(dataTransformed, targets, test_size=0.33, random_state=42)
     
+    x_train = scaler.fit_transform(x_train)
+    x_test = scaler.fit_transform(x_test)
+    x2_train = scaler.fit_transform(x2_train)
+    x2_test = scaler.fit_transform(x2_test)
+    
     clf = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(10,), random_state=1)
     clf.fit(x_train,y_train)
     score = clf.score(x_test,y_test)
