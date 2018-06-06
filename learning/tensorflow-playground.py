@@ -29,7 +29,7 @@ class ANN(object):
     def __init__(self, hidden_layers_number):
         self.hidden_layers_number = hidden_layers_number
 
-    def fit(self, data, targets, learning_rate=10e-7, mu=0.99, decay=0.999, reg=10e-3, epochs=400, batch_sz=65, show_fig=False):
+    def fit(self, data, targets, learning_rate=10e-8, mu=0.99, decay=0.999, reg=10e-3, epochs=360, batch_sz=65, show_fig=False):
         target_length = len(set(targets))
 
         data, targets = shuffle(data, targets)
@@ -62,7 +62,7 @@ class ANN(object):
         activation = self.forward(tfX)
 
         reg_cost = reg*sum([tf.nn.l2_loss(p) for p in self.params])
-        cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=activation, labels=tfY)) + reg_cost
+        cost = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=activation, labels=tfY)) + reg_cost
         prediction = self.predict(tfX)
         train_operation = tf.train.RMSPropOptimizer(learning_rate,decay=decay, momentum=mu).minimize(cost)
 
