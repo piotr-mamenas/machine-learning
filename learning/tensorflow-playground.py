@@ -66,8 +66,8 @@ class ANN(object):
         prediction = self.predict(tfX)
         train_operation = tf.train.RMSPropOptimizer(learning_rate,decay=decay, momentum=mu).minimize(cost)
 
-        n_batches = n / batch_sz
-        print(n)
+        n_batches = int(n / batch_sz)
+        print(n_batches)
         costs = []
         init = tf.global_variables_initializer()
         with tf.Session() as session:
@@ -85,7 +85,7 @@ class ANN(object):
                         costs.append(c)
 
                         p = session.run(prediction, feed_dict={tfX: x_test, tfY: y_test})
-                        e = error_rate(y_test_flat, p)
+                        e = self.error_rate(y_test_flat, p)
 
                         print('i:',i,'j:',j,'batches:',n_batches,'cost:',c,'error:',e)
 
@@ -93,6 +93,8 @@ class ANN(object):
             plt.plot(costs)
             plt.show()
 
+    def error_rate(self, targets, predictions):
+        return np.mean(targets != predictions)
 
     def forward(self, input):
         output = input
