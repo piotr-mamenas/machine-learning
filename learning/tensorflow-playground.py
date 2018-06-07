@@ -29,7 +29,7 @@ class ANN(object):
     def __init__(self, hidden_layers_number):
         self.hidden_layers_number = hidden_layers_number
 
-    def fit(self, data, targets, learning_rate=10e-8, mu=0.99, decay=0.999, reg=10e-3, epochs=360, batch_sz=65, show_fig=False):
+    def fit(self, data, targets, learning_rate=10e-9, mu=0.999, decay=0.999, reg=10e-3, epochs=720, batch_sz=65, show_fig=False):
         target_length = len(set(targets))
 
         data, targets = shuffle(data, targets)
@@ -72,22 +72,26 @@ class ANN(object):
         init = tf.global_variables_initializer()
         with tf.Session() as session:
             session.run(init)
-            for i in range(epochs):
+            for epoch in range(epochs):
                 x_train, y_train = shuffle(x_train, y_train)
-                for j in range(n_batches):
-                    x_batch = x_train[j*batch_sz:(j*batch_sz + batch_sz)]
-                    y_batch = y_train[j*batch_sz:(j*batch_sz + batch_sz)]
+                for batch_no in range(n_batches):
+                    x_batch = x_train[batch_no*batch_sz:(batch_no*batch_sz + batch_sz)]
+                    y_batch = y_train[batch_no*batch_sz:(batch_no*batch_sz + batch_sz)]
 
                     session.run(train_operation, feed_dict={tfX: x_batch, tfY: y_batch})
 
-                    if j % 20 == 0:
+                    if batch_no % 20 == 0:
                         c = session.run(cost, feed_dict={tfX: x_test, tfY: y_test})
                         costs.append(c)
 
                         p = session.run(prediction, feed_dict={tfX: x_test, tfY: y_test})
                         e = self.error_rate(y_test_flat, p)
 
-                        print('i:',i,'j:',j,'batches:',n_batches,'cost:',c,'error:',e)
+                        print('epoch:',epoch,'batch_no:',batch_no,'cost:',c,'error:',e)
+
+                        recall = tf.metrics.recall(y_test_flat, p)
+                        precision = tf.metrics.precision(y_test_flat, p)
+                        print('precision:', precision, 'recall:', recall)
 
         if show_fig:
             plt.plot(costs)
